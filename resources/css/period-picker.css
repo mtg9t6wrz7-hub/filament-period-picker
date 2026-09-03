@@ -1,0 +1,606 @@
+.rmr-period-picker {
+    position: relative;
+}
+
+.rmr-period-picker button {
+    font: inherit;
+}
+
+.rmr-period-picker__trigger {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    padding: 0;
+    text-align: left;
+}
+
+.rmr-period-picker__trigger-icon,
+.rmr-period-picker__trigger-chevron {
+    display: flex;
+    flex: none;
+    align-items: center;
+    padding-inline: 0.75rem;
+    color: var(--gray-400, #9ca3af);
+}
+
+.rmr-period-picker__trigger-icon {
+    border-inline-end: 1px solid var(--gray-200, #e5e7eb);
+}
+
+.rmr-period-picker__trigger-chevron {
+    border-inline-start: 1px solid var(--gray-200, #e5e7eb);
+}
+
+.rmr-period-picker__trigger-icon svg,
+.rmr-period-picker__trigger-chevron svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.rmr-period-picker__trigger-chevron svg {
+    transition: transform 150ms ease;
+}
+
+.rmr-period-picker__trigger-chevron svg.is-open {
+    transform: rotate(180deg);
+}
+
+.rmr-period-picker__trigger-text {
+    display: block;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rmr-period-picker__trigger-text.has-value {
+    color: var(--gray-950, #030712);
+}
+
+.rmr-period-picker__trigger-text.is-placeholder {
+    color: var(--gray-400, #9ca3af);
+}
+
+.rmr-period-picker__panel {
+    z-index: 70;
+    width: min(58rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+    overscroll-behavior: contain;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: var(--gray-950, #030712);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    outline: 1px solid rgb(3 7 18 / 0.1);
+}
+
+.rmr-period-picker__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.rmr-period-picker__mobile-header {
+    display: none;
+}
+
+.rmr-period-picker__layout {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    min-width: 0;
+}
+
+.rmr-period-picker__sidebar {
+    min-width: 0;
+    overflow: hidden;
+    padding: 0.75rem;
+    border-inline-end: 1px solid var(--gray-200, #e5e7eb);
+    background: var(--gray-50, #f9fafb);
+}
+
+.rmr-period-picker__eyebrow {
+    padding: 0 0.5rem 0.5rem;
+    color: var(--gray-500, #6b7280);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+}
+
+.rmr-period-picker__presets {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    scrollbar-width: thin;
+}
+
+.rmr-period-picker__preset {
+    width: 100%;
+    min-width: 0;
+    padding: 0.5rem 0.625rem;
+    border-radius: 0.5rem;
+    color: var(--gray-700, #374151);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-align: left;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.rmr-period-picker__preset:hover {
+    background: #fff;
+}
+
+.rmr-period-picker__preset.is-selected {
+    background: var(--primary-50, #fdf2f8);
+    color: var(--primary-700, #be185d);
+    font-weight: 600;
+}
+
+.rmr-period-picker__content {
+    min-width: 0;
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.rmr-period-picker__intro {
+    margin-bottom: 1rem;
+}
+
+.rmr-period-picker__title,
+.rmr-period-picker__calendar-header p {
+    color: var(--gray-950, #030712);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+}
+
+.rmr-period-picker__calendar-header p {
+    text-transform: capitalize;
+}
+
+.rmr-period-picker__description {
+    margin-top: 0.25rem;
+    color: var(--gray-500, #6b7280);
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.rmr-period-picker__calendars {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.25rem;
+    min-width: 0;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200, #e5e7eb);
+}
+
+.rmr-period-picker__calendar {
+    min-width: 0;
+}
+
+.rmr-period-picker__calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.rmr-period-picker__icon-button,
+.rmr-period-picker__nav-placeholder {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.rmr-period-picker__icon-button {
+    color: var(--gray-500, #6b7280);
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.rmr-period-picker__icon-button:hover {
+    background: var(--gray-100, #f3f4f6);
+    color: var(--gray-950, #030712);
+}
+
+.rmr-period-picker__icon-button:focus-visible,
+.rmr-period-picker__preset:focus-visible,
+.rmr-period-picker__day:focus-visible {
+    outline: 2px solid var(--primary-600, #db2777);
+    outline-offset: 2px;
+}
+
+.rmr-period-picker__icon-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.rmr-period-picker__mobile-close svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.rmr-period-picker__next-mobile {
+    display: none;
+}
+
+.rmr-period-picker__weekdays,
+.rmr-period-picker__days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    min-width: 0;
+    text-align: center;
+}
+
+.rmr-period-picker__weekdays {
+    color: var(--gray-400, #9ca3af);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+}
+
+.rmr-period-picker__weekdays span {
+    padding-block: 0.25rem;
+}
+
+.rmr-period-picker__days {
+    row-gap: 0.125rem;
+    margin-top: 0.25rem;
+}
+
+.rmr-period-picker__day {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    margin-inline: auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: var(--gray-300, #d1d5db);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.rmr-period-picker__day.is-current-month {
+    color: var(--gray-950, #030712);
+}
+
+.rmr-period-picker__day:hover {
+    background: var(--gray-100, #f3f4f6);
+}
+
+.rmr-period-picker__day.is-outside-month:hover {
+    background: var(--gray-50, #f9fafb);
+}
+
+.rmr-period-picker__day.is-in-range {
+    background: var(--primary-50, #fdf2f8);
+    color: var(--primary-800, #9d174d);
+}
+
+.rmr-period-picker__day.is-range-edge {
+    background: var(--primary-600, #db2777);
+    color: #fff;
+    font-weight: 600;
+}
+
+.rmr-period-picker__day.is-range-edge:hover {
+    background: var(--primary-500, #ec4899);
+}
+
+.rmr-period-picker__day.is-today:not(.is-range-edge) {
+    box-shadow: inset 0 0 0 1px var(--primary-500, #ec4899);
+}
+
+.rmr-period-picker__day.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.rmr-period-picker__footer {
+    position: sticky;
+    z-index: 20;
+    bottom: -1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 1.25rem -1rem -1rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--gray-200, #e5e7eb);
+    background: var(--gray-50, #f9fafb);
+}
+
+.rmr-period-picker__footer > p {
+    color: var(--gray-500, #6b7280);
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.rmr-period-picker__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dark .rmr-period-picker__trigger-icon,
+.dark .rmr-period-picker__trigger-chevron {
+    border-color: rgb(255 255 255 / 0.1);
+    color: var(--gray-500, #6b7280);
+}
+
+.dark .rmr-period-picker__trigger-text.has-value,
+.dark .rmr-period-picker__title,
+.dark .rmr-period-picker__calendar-header p {
+    color: #fff;
+}
+
+.dark .rmr-period-picker__trigger-text.is-placeholder {
+    color: var(--gray-500, #6b7280);
+}
+
+.dark .rmr-period-picker__panel {
+    background: var(--gray-900, #111827);
+    color: #fff;
+    outline-color: rgb(255 255 255 / 0.15);
+}
+
+.dark .rmr-period-picker__sidebar {
+    border-color: rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.025);
+}
+
+.dark .rmr-period-picker__eyebrow,
+.dark .rmr-period-picker__description,
+.dark .rmr-period-picker__footer > p {
+    color: var(--gray-400, #9ca3af);
+}
+
+.dark .rmr-period-picker__preset {
+    color: var(--gray-200, #e5e7eb);
+}
+
+.dark .rmr-period-picker__preset:hover,
+.dark .rmr-period-picker__icon-button:hover,
+.dark .rmr-period-picker__day:hover {
+    background: rgb(255 255 255 / 0.05);
+    color: #fff;
+}
+
+.dark .rmr-period-picker__preset.is-selected,
+.dark .rmr-period-picker__day.is-in-range {
+    background: color-mix(in srgb, var(--primary-500, #ec4899) 10%, transparent);
+    color: var(--primary-200, #fbcfe8);
+}
+
+.dark .rmr-period-picker__calendars,
+.dark .rmr-period-picker__footer {
+    border-color: rgb(255 255 255 / 0.1);
+}
+
+.dark .rmr-period-picker__icon-button {
+    color: var(--gray-400, #9ca3af);
+}
+
+.dark .rmr-period-picker__weekdays {
+    color: var(--gray-500, #6b7280);
+}
+
+.dark .rmr-period-picker__day {
+    color: var(--gray-600, #4b5563);
+}
+
+.dark .rmr-period-picker__day.is-current-month {
+    color: #fff;
+}
+
+.dark .rmr-period-picker__day.is-outside-month:hover {
+    background: rgb(255 255 255 / 0.025);
+}
+
+.dark .rmr-period-picker__day.is-range-edge {
+    background: var(--primary-600, #db2777);
+    color: #fff;
+}
+
+.dark .rmr-period-picker__footer {
+    background: var(--gray-900, #111827);
+}
+
+@media (max-width: 1023px) {
+    .rmr-period-picker__calendars {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rmr-period-picker__calendar--second {
+        display: none;
+    }
+
+    .rmr-period-picker__next-mobile {
+        display: flex;
+    }
+}
+
+@media (max-width: 767px) {
+    html.rmr-period-picker-open,
+    html.rmr-period-picker-open body {
+        overflow: hidden;
+    }
+
+    .rmr-period-picker__panel {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 70;
+        width: 100vw;
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        max-height: 100vh;
+        max-height: 100dvh;
+        margin: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transform: none !important;
+        border-radius: 0;
+    }
+
+    .rmr-period-picker__mobile-header {
+        position: sticky;
+        z-index: 30;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 3.75rem;
+        padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem 0.75rem;
+        border-bottom: 1px solid var(--gray-200, #e5e7eb);
+        background: #fff;
+    }
+
+    .rmr-period-picker__mobile-header p {
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+    }
+
+    .rmr-period-picker__mobile-close,
+    .rmr-period-picker__calendar-header .rmr-period-picker__icon-button {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .rmr-period-picker__layout {
+        display: block;
+    }
+
+    .rmr-period-picker__sidebar {
+        padding: 0.75rem;
+        border-inline-end: 0;
+        border-bottom: 1px solid var(--gray-200, #e5e7eb);
+    }
+
+    .rmr-period-picker__eyebrow {
+        padding-inline: 0;
+    }
+
+    .rmr-period-picker__presets {
+        display: flex;
+        gap: 0.5rem;
+        margin-inline: -0.25rem;
+        padding: 0 0.25rem 0.25rem;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+    }
+
+    .rmr-period-picker__preset {
+        width: auto;
+        min-height: 2.75rem;
+        flex: none;
+        padding-inline: 0.75rem;
+        scroll-snap-align: start;
+        white-space: nowrap;
+    }
+
+    .rmr-period-picker__content {
+        padding: 0.75rem;
+    }
+
+    .rmr-period-picker__title {
+        display: none;
+    }
+
+    .rmr-period-picker__description {
+        margin-top: 0;
+    }
+
+    .rmr-period-picker__calendars {
+        gap: 0;
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .rmr-period-picker__day {
+        width: min(2.75rem, 100%);
+        height: auto;
+        min-height: 2.5rem;
+        aspect-ratio: 1;
+    }
+
+    .rmr-period-picker__footer {
+        bottom: -0.75rem;
+        display: block;
+        margin: 1.25rem -0.75rem -0.75rem;
+        padding: 0.75rem 0.5rem calc(0.75rem + env(safe-area-inset-bottom));
+    }
+
+    .rmr-period-picker__footer > p {
+        display: none;
+    }
+
+    .rmr-period-picker__actions {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .rmr-period-picker__actions .fi-btn {
+        min-height: 2.75rem;
+    }
+
+    .dark .rmr-period-picker__mobile-header {
+        border-color: rgb(255 255 255 / 0.1);
+        background: var(--gray-900, #111827);
+    }
+
+    .dark .rmr-period-picker__sidebar {
+        border-color: rgb(255 255 255 / 0.1);
+    }
+}
+
+@media (max-width: 359px) {
+    .rmr-period-picker__mobile-header {
+        min-height: 3.25rem;
+        padding-top: max(0.5rem, env(safe-area-inset-top));
+        padding-bottom: 0.5rem;
+    }
+
+    .rmr-period-picker__sidebar,
+    .rmr-period-picker__content {
+        padding-inline: 0.5rem;
+    }
+
+    .rmr-period-picker__intro {
+        margin-bottom: 0.75rem;
+    }
+
+    .rmr-period-picker__calendars {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+    }
+
+    .rmr-period-picker__calendar-header {
+        margin-bottom: 0.5rem;
+    }
+
+    .rmr-period-picker__footer {
+        margin-inline: -0.5rem;
+    }
+}

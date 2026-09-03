@@ -2,7 +2,7 @@
 
 A reusable Filament 4 form field for selecting a date range. It combines quick presets, two synchronized Filament date inputs, and a shared range calendar in one responsive picker.
 
-The package ships its own lazy-loaded JavaScript, CSS, views, and English and Dutch translations. A consuming application does not need to add Tailwind `@source` directives or register assets manually.
+The package ships its own lazy-loaded JavaScript, CSS, views, and translations for English, Dutch, French, Italian, German, Spanish, Greek, and Japanese. A consuming application does not need to add Tailwind `@source` directives or register assets manually.
 
 ## Requirements
 
