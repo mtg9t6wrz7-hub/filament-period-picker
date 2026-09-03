@@ -50,7 +50,7 @@ PeriodPicker::make('period')
     ]);
 ```
 
-The dehydrated value is an array containing ISO dates:
+By default, the dehydrated value is an array containing ISO dates:
 
 ```php
 [
@@ -65,6 +65,10 @@ The dehydrated value is an array containing ISO dates:
 PeriodPicker::make('period')
     ->locale('nl')
     ->firstDayOfWeek(1)
+    ->displayFormat('d M Y')
+    ->format('Y-m-d')
+    ->native(false)
+    ->closeOnDateSelection()
     ->minDate('2025-01-01')
     ->maxDate('2027-12-31')
     ->presets([
@@ -77,7 +81,30 @@ PeriodPicker::make('period')
     ]);
 ```
 
-`locale()`, `firstDayOfWeek()`, `minDate()`, `maxDate()`, and `presets()` also accept closures. Invalid preset ranges are ignored.
+`locale()`, `firstDayOfWeek()`, `displayFormat()`, `format()`, `native()`, `closeOnDateSelection()`, `minDate()`, `maxDate()`, and `presets()` also accept closures with Filament utility injection. Invalid preset ranges are ignored.
+
+`displayFormat()` controls how both date inputs are displayed. When native inputs are enabled, the browser controls their visual format. `format()` controls the format of the hydrated and dehydrated `start` and `end` values; the picker continues to use ISO dates internally.
+
+For any other `DatePicker` option, configure both embedded inputs together or target one input:
+
+```php
+use Filament\Forms\Components\DatePicker;
+
+PeriodPicker::make('period')
+    ->configureDatePickersUsing(
+        fn (DatePicker $datePicker) => $datePicker
+            ->placeholder('Choose a date')
+            ->extraInputAttributes(['autocomplete' => 'off'])
+    )
+    ->configureStartDatePickerUsing(
+        fn (DatePicker $datePicker) => $datePicker->label('Beginning')
+    )
+    ->configureEndDatePickerUsing(
+        fn (DatePicker $datePicker) => $datePicker->label('Ending')
+    );
+```
+
+The configurator closures may also inject the parent `PeriodPicker` as `$component`, the current picker type as `$type` (`start` or `end`), and the usual Filament utilities. The embedded fields always remain non-dehydrated because the parent field owns the final range value.
 
 Without custom presets, the picker provides:
 

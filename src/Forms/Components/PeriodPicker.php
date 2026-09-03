@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rmr\FilamentPeriodPicker\Forms\Components;
 
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Field;
@@ -15,13 +16,27 @@ class PeriodPicker extends Field
     /** @var view-string */
     protected string $view = 'filament-period-picker::forms.components.period-picker';
 
+    protected ?Closure $configureDatePickersUsing = null;
+
+    protected ?Closure $configureEndDatePickerUsing = null;
+
+    protected ?Closure $configureStartDatePickerUsing = null;
+
     protected int|Closure $firstDayOfWeek = 1;
+
+    protected string|Closure|null $displayFormat = 'd M Y';
+
+    protected string|Closure|null $format = 'Y-m-d';
+
+    protected bool|Closure $isNative = false;
 
     protected string|Closure|null $locale = null;
 
-    protected CarbonImmutable|string|Closure|null $maxDate = null;
+    protected CarbonInterface|string|Closure|null $maxDate = null;
 
-    protected CarbonImmutable|string|Closure|null $minDate = null;
+    protected CarbonInterface|string|Closure|null $minDate = null;
+
+    protected bool|Closure $shouldCloseOnDateSelection = true;
 
     /**
      * @var array<int, array{key: string, label: string, start: string, end: string}>|Closure|null
@@ -36,37 +51,83 @@ class PeriodPicker extends Field
             $component->state($component->normalizeStateWithDraft($state));
         });
 
-        $this->dehydrateStateUsing(fn (mixed $state): ?array => $this->normalizeState($state));
+        $this->dehydrateStateUsing(fn (mixed $state): ?array => $this->formatStateForDehydration($state));
 
         $this->columns([
             'default' => 1,
             'sm' => 2,
         ]);
 
-        $this->components(static fn (PeriodPicker $component): array => [
-            DatePicker::make('draft_start')
+        $this->components(static function (PeriodPicker $component): array {
+            $startDatePicker = DatePicker::make('draft_start')
                 ->label(__('filament-period-picker::period-picker.start_date'))
-                ->native(false)
-                ->closeOnDateSelection()
-                ->displayFormat('d M Y')
-                ->format('Y-m-d')
+                ->native($component->isNative())
+                ->closeOnDateSelection($component->shouldCloseOnDateSelection())
+                ->displayFormat($component->getDisplayFormat())
+                ->format($component->getFormat())
                 ->locale($component->getLocale())
                 ->firstDayOfWeek($component->getFirstDayOfWeek())
                 ->minDate($component->getMinDate())
-                ->maxDate($component->getMaxDate())
-                ->dehydrated(false),
-            DatePicker::make('draft_end')
+                ->maxDate($component->getMaxDate());
+
+            $endDatePicker = DatePicker::make('draft_end')
                 ->label(__('filament-period-picker::period-picker.end_date'))
-                ->native(false)
-                ->closeOnDateSelection()
-                ->displayFormat('d M Y')
-                ->format('Y-m-d')
+                ->native($component->isNative())
+                ->closeOnDateSelection($component->shouldCloseOnDateSelection())
+                ->displayFormat($component->getDisplayFormat())
+                ->format($component->getFormat())
                 ->locale($component->getLocale())
                 ->firstDayOfWeek($component->getFirstDayOfWeek())
                 ->minDate($component->getMinDate())
-                ->maxDate($component->getMaxDate())
-                ->dehydrated(false),
-        ]);
+                ->maxDate($component->getMaxDate());
+
+            return [
+                $component->configureDatePicker($startDatePicker, 'start')->dehydrated(false),
+                $component->configureDatePicker($endDatePicker, 'end')->dehydrated(false),
+            ];
+        });
+    }
+
+    public function closeOnDateSelection(bool|Closure $condition = true): static
+    {
+        $this->shouldCloseOnDateSelection = $condition;
+
+        return $this;
+    }
+
+    public function configureDatePickersUsing(?Closure $callback): static
+    {
+        $this->configureDatePickersUsing = $callback;
+
+        return $this;
+    }
+
+    public function configureEndDatePickerUsing(?Closure $callback): static
+    {
+        $this->configureEndDatePickerUsing = $callback;
+
+        return $this;
+    }
+
+    public function configureStartDatePickerUsing(?Closure $callback): static
+    {
+        $this->configureStartDatePickerUsing = $callback;
+
+        return $this;
+    }
+
+    public function displayFormat(string|Closure|null $format): static
+    {
+        $this->displayFormat = $format;
+
+        return $this;
+    }
+
+    public function format(string|Closure|null $format): static
+    {
+        $this->format = $format;
+
+        return $this;
     }
 
     public function firstDayOfWeek(int|Closure $day): static
@@ -80,7 +141,17 @@ class PeriodPicker extends Field
     {
         $day = (int) $this->evaluate($this->firstDayOfWeek);
 
-        return in_array($day, range(0, 6), true) ? $day : 1;
+        return in_array($day, range(0, 7), true) ? $day : 1;
+    }
+
+    public function getDisplayFormat(): string
+    {
+        return (string) ($this->evaluate($this->displayFormat) ?: 'd M Y');
+    }
+
+    public function getFormat(): string
+    {
+        return (string) ($this->evaluate($this->format) ?: 'Y-m-d');
     }
 
     public function locale(string|Closure|null $locale): static
@@ -95,7 +166,7 @@ class PeriodPicker extends Field
         return (string) ($this->evaluate($this->locale) ?: app()->getLocale());
     }
 
-    public function maxDate(CarbonImmutable|string|Closure|null $date): static
+    public function maxDate(CarbonInterface|string|Closure|null $date): static
     {
         $this->maxDate = $date;
 
@@ -107,7 +178,7 @@ class PeriodPicker extends Field
         return $this->normalizeDate($this->evaluate($this->maxDate));
     }
 
-    public function minDate(CarbonImmutable|string|Closure|null $date): static
+    public function minDate(CarbonInterface|string|Closure|null $date): static
     {
         $this->minDate = $date;
 
@@ -117,6 +188,18 @@ class PeriodPicker extends Field
     public function getMinDate(): ?string
     {
         return $this->normalizeDate($this->evaluate($this->minDate));
+    }
+
+    public function isNative(): bool
+    {
+        return (bool) $this->evaluate($this->isNative);
+    }
+
+    public function native(bool|Closure $condition = true): static
+    {
+        $this->isNative = $condition;
+
+        return $this;
     }
 
     /**
@@ -176,6 +259,31 @@ class PeriodPicker extends Field
         ];
     }
 
+    public function shouldCloseOnDateSelection(): bool
+    {
+        return (bool) $this->evaluate($this->shouldCloseOnDateSelection);
+    }
+
+    protected function configureDatePicker(DatePicker $datePicker, string $type): DatePicker
+    {
+        $injections = [
+            'datePicker' => $datePicker,
+            'type' => $type,
+        ];
+        $typedInjections = [
+            DatePicker::class => $datePicker,
+        ];
+
+        $this->evaluate($this->configureDatePickersUsing, $injections, $typedInjections);
+        $this->evaluate(
+            $type === 'start' ? $this->configureStartDatePickerUsing : $this->configureEndDatePickerUsing,
+            $injections,
+            $typedInjections,
+        );
+
+        return $datePicker;
+    }
+
     /**
      * @return array{key: string, label: string, start: string, end: string}
      */
@@ -209,6 +317,23 @@ class PeriodPicker extends Field
         ];
     }
 
+    /** @return array{start: string, end: string}|null */
+    protected function formatStateForDehydration(mixed $state): ?array
+    {
+        $state = $this->normalizeState($state);
+
+        if (! $state) {
+            return null;
+        }
+
+        $format = $this->getFormat();
+
+        return [
+            'start' => CarbonImmutable::createFromFormat('!Y-m-d', $state['start'])->format($format),
+            'end' => CarbonImmutable::createFromFormat('!Y-m-d', $state['end'])->format($format),
+        ];
+    }
+
     /** @return array{start: string, end: string, draft_start: string, draft_end: string}|null */
     protected function normalizeStateWithDraft(mixed $state): ?array
     {
@@ -229,6 +354,23 @@ class PeriodPicker extends Field
     {
         if (blank($date)) {
             return null;
+        }
+
+        if ($date instanceof CarbonInterface) {
+            return CarbonImmutable::instance($date)->toDateString();
+        }
+
+        $date = (string) $date;
+        $format = $this->getFormat();
+
+        try {
+            $formattedDate = CarbonImmutable::createFromFormat("!{$format}", $date);
+
+            if ($formattedDate->format($format) === $date) {
+                return $formattedDate->toDateString();
+            }
+        } catch (Throwable) {
+            // Fall back to Carbon's flexible parser for ISO values and presets.
         }
 
         try {

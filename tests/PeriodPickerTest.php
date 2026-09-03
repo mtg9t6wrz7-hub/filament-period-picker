@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Rmr\FilamentPeriodPicker\Tests;
 
 use Carbon\CarbonImmutable;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Arr;
+use ReflectionMethod;
 use Rmr\FilamentPeriodPicker\Forms\Components\PeriodPicker;
 use Rmr\FilamentPeriodPicker\PeriodPickerPlugin;
 
@@ -63,6 +65,59 @@ final class PeriodPickerTest extends TestCase
 
         $this->assertCount(1, $presets);
         $this->assertSame('valid', $presets[0]['key']);
+    }
+
+    public function test_it_evaluates_date_picker_configuration(): void
+    {
+        $component = PeriodPicker::make('period')
+            ->closeOnDateSelection(fn (): bool => false)
+            ->displayFormat(fn (): string => 'd/m/Y')
+            ->firstDayOfWeek(fn (): int => 7)
+            ->format(fn (): string => 'd/m/Y')
+            ->native(fn (): bool => true);
+
+        $this->assertFalse($component->shouldCloseOnDateSelection());
+        $this->assertSame('d/m/Y', $component->getDisplayFormat());
+        $this->assertSame(7, $component->getFirstDayOfWeek());
+        $this->assertSame('d/m/Y', $component->getFormat());
+        $this->assertTrue($component->isNative());
+    }
+
+    public function test_it_normalizes_and_dehydrates_dates_using_the_configured_format(): void
+    {
+        $component = PeriodPicker::make('period')->format('d/m/Y');
+        $normalizeState = new ReflectionMethod($component, 'normalizeState');
+        $formatStateForDehydration = new ReflectionMethod($component, 'formatStateForDehydration');
+
+        $this->assertSame(
+            ['start' => '2026-09-03', 'end' => '2026-09-30'],
+            $normalizeState->invoke($component, ['start' => '03/09/2026', 'end' => '30/09/2026']),
+        );
+        $this->assertSame(
+            ['start' => '03/09/2026', 'end' => '30/09/2026'],
+            $formatStateForDehydration->invoke($component, ['start' => '2026-09-03', 'end' => '2026-09-30']),
+        );
+    }
+
+    public function test_it_allows_both_date_pickers_to_be_further_configured(): void
+    {
+        $component = PeriodPicker::make('period')
+            ->configureDatePickersUsing(function (DatePicker $datePicker, string $type): void {
+                $datePicker->placeholder("Choose the {$type} date");
+            })
+            ->configureEndDatePickerUsing(function (DatePicker $datePicker): void {
+                $datePicker->label('Ending date');
+            });
+        $configureDatePicker = new ReflectionMethod($component, 'configureDatePicker');
+
+        /** @var DatePicker $startDatePicker */
+        $startDatePicker = $configureDatePicker->invoke($component, DatePicker::make('draft_start'), 'start');
+        /** @var DatePicker $endDatePicker */
+        $endDatePicker = $configureDatePicker->invoke($component, DatePicker::make('draft_end'), 'end');
+
+        $this->assertSame('Choose the start date', $startDatePicker->getPlaceholder());
+        $this->assertSame('Choose the end date', $endDatePicker->getPlaceholder());
+        $this->assertSame('Ending date', $endDatePicker->getLabel());
     }
 
     public function test_all_translations_contain_the_english_translation_keys(): void
