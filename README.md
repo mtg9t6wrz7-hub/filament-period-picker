@@ -1,6 +1,6 @@
 # Filament Period Picker
 
-A reusable Filament 4 form field for selecting a date range. It combines quick presets, two synchronized Filament date inputs, and a shared range calendar in one responsive picker.
+A reusable Filament form field for selecting a date range. It combines quick presets, two synchronized Filament date inputs, and a shared range calendar in one responsive picker.
 
 The package ships its own lazy-loaded JavaScript, CSS, views, and translations for English, Dutch, French, Italian, German, Spanish, Greek, and Japanese. A consuming application does not need to add Tailwind `@source` directives or register assets manually.
 
@@ -8,7 +8,7 @@ The package ships its own lazy-loaded JavaScript, CSS, views, and translations f
 
 - PHP 8.2 or newer
 - Laravel 11.28, 12, or 13
-- Filament 4
+- Filament 4 or 5
 
 ## Installation
 
