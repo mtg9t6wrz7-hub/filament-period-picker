@@ -6,6 +6,7 @@ namespace Rmr\FilamentPeriodPicker\Forms\Components;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
+use Carbon\Constants\UnitValue;
 use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Field;
@@ -22,7 +23,7 @@ class PeriodPicker extends Field
 
     protected ?Closure $configureStartDatePickerUsing = null;
 
-    protected int|Closure $firstDayOfWeek = 1;
+    protected int|Closure $firstDayOfWeek = UnitValue::MONDAY;
 
     protected string|Closure|null $displayFormat = 'd M Y';
 
