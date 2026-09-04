@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Rmr\FilamentPeriodPicker;
+namespace RMRook\FilamentPeriodPicker;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class PeriodPickerServiceProvider extends PackageServiceProvider
 {
-    public const PACKAGE = 'rmr/period-picker';
+    public const PACKAGE = 'rmrook/period-picker';
 
     public function configurePackage(Package $package): void
     {

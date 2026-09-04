@@ -21,18 +21,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Rmr\\FilamentPeriodPicker\\": "src/"
+            "RMRook\\FilamentPeriodPicker\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rmr\\FilamentPeriodPicker\\Tests\\": "tests/"
+            "RMRook\\FilamentPeriodPicker\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Rmr\\FilamentPeriodPicker\\PeriodPickerServiceProvider"
+                "RMRook\\FilamentPeriodPicker\\PeriodPickerServiceProvider"
             ]
         }
     },

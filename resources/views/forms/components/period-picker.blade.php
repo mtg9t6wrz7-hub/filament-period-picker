@@ -13,8 +13,8 @@
 >
     <div
         x-load
-        x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('period-picker', package: \Rmr\FilamentPeriodPicker\PeriodPickerServiceProvider::PACKAGE) }}"
-        x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('period-picker', package: \Rmr\FilamentPeriodPicker\PeriodPickerServiceProvider::PACKAGE))]"
+        x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('period-picker', package: \RMRook\FilamentPeriodPicker\PeriodPickerServiceProvider::PACKAGE) }}"
+        x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('period-picker', package: \RMRook\FilamentPeriodPicker\PeriodPickerServiceProvider::PACKAGE))]"
         x-data="periodPickerFormComponent({
             state: $wire.$entangle(@js($statePath)),
             statePath: @js($statePath),

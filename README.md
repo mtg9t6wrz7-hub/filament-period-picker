@@ -15,13 +15,13 @@ The package ships its own lazy-loaded JavaScript, CSS, views, and translations f
 Install the Composer package:
 
 ```bash
-composer require rmr/period-picker
+composer require rmrook/filament-period-picker
 ```
 
 Register the plugin in every Filament panel where the field is used:
 
 ```php
-use Rmr\FilamentPeriodPicker\PeriodPickerPlugin;
+use RMRook\FilamentPeriodPicker\PeriodPickerPlugin;
 
 public function panel(Panel $panel): Panel
 {
@@ -40,7 +40,7 @@ php artisan filament:assets
 ## Basic usage
 
 ```php
-use Rmr\FilamentPeriodPicker\Forms\Components\PeriodPicker;
+use RMRook\FilamentPeriodPicker\Forms\Components\PeriodPicker;
 
 PeriodPicker::make('period')
     ->label('Periode')

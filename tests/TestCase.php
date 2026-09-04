@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rmr\FilamentPeriodPicker\Tests;
+namespace RMRook\FilamentPeriodPicker\Tests;
 
 use Filament\Forms\FormsServiceProvider;
 use Filament\Panel;
@@ -10,8 +10,8 @@ use Filament\Schemas\SchemasServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Rmr\FilamentPeriodPicker\PeriodPickerPlugin;
-use Rmr\FilamentPeriodPicker\PeriodPickerServiceProvider;
+use RMRook\FilamentPeriodPicker\PeriodPickerPlugin;
+use RMRook\FilamentPeriodPicker\PeriodPickerServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

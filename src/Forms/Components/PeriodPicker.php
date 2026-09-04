@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rmr\FilamentPeriodPicker\Forms\Components;
+namespace RMRook\FilamentPeriodPicker\Forms\Components;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Rmr\FilamentPeriodPicker\Tests;
+namespace RMRook\FilamentPeriodPicker\Tests;
 
 use Carbon\CarbonImmutable;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Arr;
 use ReflectionMethod;
-use Rmr\FilamentPeriodPicker\Forms\Components\PeriodPicker;
-use Rmr\FilamentPeriodPicker\PeriodPickerPlugin;
+use RMRook\FilamentPeriodPicker\Forms\Components\PeriodPicker;
+use RMRook\FilamentPeriodPicker\PeriodPickerPlugin;
 
 final class PeriodPickerTest extends TestCase
 {

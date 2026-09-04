@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rmr\FilamentPeriodPicker;
+namespace RMRook\FilamentPeriodPicker;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
