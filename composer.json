@@ -1,5 +1,5 @@
 {
-    "name": "rmr/period-picker",
+    "name": "rmrook/filament-period-picker",
     "description": "A reusable, responsive date-range picker for Filament forms.",
     "keywords": [
         "filament",
